@@ -9,10 +9,10 @@ def hello_world():
 
 
 # background process happening without any refreshing
-@app.route('/background_process_test')
-def background_process_test():
-    print("Hello")
-    return "nothing"
+@app.route('/get_dog')
+def get_dog():
+    print("woof woof! 🐶")
+    return "woof woof! 🐶"
 
 
 @app.route('/increase_people')
