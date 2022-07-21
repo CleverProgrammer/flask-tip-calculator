@@ -1,5 +1,12 @@
 <h3>Click Here to Get a Random Dog 👇</h3>
 <h3>Doggies Generated 🐶 {{ dogs_generated }}</h3>
+<h3>Username 👉 {{ logged_in_user }} </h3>
+<h3>Session 👉 {{ session['user'] }}</h3>
+
+<form action='/' method='POST'>
+  <input type="text" name="user_name" placeholder='username'>
+  <input type="submit">
+</form>
 
 <form action="/">
   <button>Get Random Dog</button>
