@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ def hello_world():
 
 
 # background process happening without any refreshing
-@app.route('/get_dog')
+@app.route('/get_dog', methods=['GET', 'POST'])
 def get_dog():
     print("woof woof! 🐶")
     return "woof woof! 🐶"
