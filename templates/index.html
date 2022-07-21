@@ -1,96 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap"
-      rel="stylesheet"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <title>Tip Calculator</title>
-    <style>
-    
-    </style>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-     <link rel="stylesheet" href="./static/styles.css" type="text/css" />
-     
-    
-<!--     <script>
-      // $(function () {
-      //   $('a#test').on('click', function (e) {
-      //     e.preventDefault()
-      //     $.getJSON('/background_process_test', function (data) {
-      //       //do nothing
-      //     })
-      //     return false
-      //   })
-      // })
-    </script> -->
-  </head>
-  <body>
-   
-    <h3>Test Button 👇</h3>
-    <form>
-      <a href="#" id="test" ><button class="btn btn-primary" pys-onClick='get_data'>Test</button></a>
-    </form>
-    <div class="wrapper">
-      <div class="container" id="topContainer">
-        <div class="title">Bill total</div>
-        <div class="inputContainer">
-          <span>$</span>
-          <input
-            onkeyup="calculateBill()"
-            type="text"
-            id="billTotalInput"
-            placeholder="0.00"
-          />
-        </div>
-      </div>
-      <div class="container">
-        <div class="title">Tip</div>
-        <div class="inputContainer">
-          <span>%</span>
-          <input
-            onkeyup="calculateBill()"
-            type="text"
-            id="tipInput"
-            placeholder="10"
-          />
-        </div>
-      </div>
-      <div class="container" id="bottom">
-        <div class="splitContainer">
-          <div class="title">People</div>
-          <div class="controls">
-            <span class="buttonContainer">
-              <button class="splitButton">
-                <span class="buttonText">+</span>
-              </button>
-            </span>
-            <span class="splitAmount" id="numberOfPeople">1</span>
-            <span class="buttonContainer">
-              <button class="splitButton" onclick="decreasePeople()">
-                <span class="buttonText">-</span>
-              </button>
-            </span>
-          </div>
-        </div>
-        <div class="totalContainer">
-          <div class="title">Total per Person</div>
-          <div class="total" id="perPersonTotal">$0.00</div>
-        </div>
-      </div>
-      <div id='dog'></div>
-    </div>
+<h3>Click Here to Get a Random Dog 👇</h3>
+<h3>Doggies Generated 🐶 {{ dogs_generated }}</h3>
 
-    <script type="text/javascript" src="script.js"></script>
-     <py-script src='./static/script.py'/>
-  </body>
-</html>
+<form action="/">
+  <button>Get Random Dog</button>
+</form>
+
+{% if dog_image %}
+  <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
+{% endif %}
