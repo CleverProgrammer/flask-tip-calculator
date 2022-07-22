@@ -1,17 +1,24 @@
 <h3>Click Here to Get a Random Dog 👇</h3>
 <h3>Doggies Generated 🐶 {{ dogs_generated }}</h3>
-<h3>Username 👉 {{ logged_in_user }} </h3>
-<h3>Session 👉 {{ session['user'] }}</h3>
+<h3>Logged In User 👉 {{ session['user'] }}</h3>
 
+{% if not session['user'] %}
 <form action='/' method='POST'>
   <input type="text" name="user_name" placeholder='username'>
   <input type="submit">
 </form>
+{% endif %}
 
+{% if session['user'] %}
 <form action="/">
   <button>Get Random Dog</button>
 </form>
 
-{% if dog_image %}
-  <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
+  {% if dog_image %}
+    <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
+  {% endif %}
+
+<form action='/logout'>
+  <button>logout</button>
+</form>
 {% endif %}
