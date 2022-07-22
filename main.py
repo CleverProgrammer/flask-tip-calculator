@@ -15,8 +15,12 @@ if 'users' not in db:
 
 if 'dogs_generated' not in db:
   db['dogs_generated'] = 0
-  
-db['last_dog'] = ''
+
+if 'last_dog' not in db:
+  db['last_dog'] = ''
+
+if 'leaderboard' not in db:
+  db['leaderboard'] = []
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
@@ -33,7 +37,8 @@ def hello_world():
   
   return render_template('index.html', 
                          dogs_generated=db['dog_images_generated'],
-                         user=user
+                         user=user,
+                         leaderboard=enumerate(db['leaderboard']),
                         )
 
 @app.route('/get_dog')
@@ -48,17 +53,23 @@ def get_dog():
   db['last_dog'] = data['message']
   dogs_generated=db['dog_images_generated']
   dog_image=data['message']
+
+  db['leaderboard'] = get_leaderboard(db['users'])
     
   return render_template('index.html', 
                          dogs_generated=db['dog_images_generated'],
                          dog_image=data['message'],
-                         user=user
+                         user=user,
+                         leaderboard=enumerate(db['leaderboard']),
                         )
 
 @app.route('/logout')
 def logout():
   session['user'] = None
-  return render_template('index.html', dogs_generated=db['dog_images_generated'])
+  return render_template('index.html', 
+                         dogs_generated=db['dog_images_generated'],
+                         leaderboard=enumerate(db['leaderboard']),
+                        )
 
 
 '''
@@ -71,8 +82,7 @@ Update existing user
 ObservedDict(value={'user_name': 'david', 'logins': 3, 'dogs_generated': 0})
 '''
 def create_or_update_user(user_name):
-  user = get_user_from_database(user_name)
-  
+  user = get_user_from_database(user_name)  
   if user:
       user['logins'] += 1
   else:
@@ -100,7 +110,18 @@ def get_user_from_database(user_name):
   user = [user for user in db['users'] if user['user_name'] == user_name]
   return user[0] if user else None
 
-  
+
+'''
+>>> get_leaderboard()
+'''
+def get_leaderboard(users):
+  # Example of how to use `sorted`
+  # sorted(companies, key=lambda company: company[2], reverse=True))
+  leaderboard = sorted([user.value for user in users], 
+                     key=lambda user: user['dogs_generated'], 
+                     reverse=True)
+
+  return leaderboard
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0', port=81)

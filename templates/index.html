@@ -1,10 +1,29 @@
+<!-- Adding some style to table (OPTIONAL) -->
+<style type="text/css">
+      
+    th:tr{
+        color: blue;
+  
+    }
+    tr:nth-of-type(2n){
+        border: 1px solid black;
+        background-color: rgba(150, 150, 150, 0.5);
+  
+    }
+  
+    td{
+        padding: 8px 8px;
+        border: 1px solid black;
+    }
+</style>
+
 <h3>Click Here to Get a Random Dog 👇</h3>
 <h3>Doggies Generated 🐶 {{ dogs_generated }}</h3>
 
 {% if not session['user'] %}
 <form action='/' method='POST'>
   <input type="text" name="user_name" placeholder='username'>
-  <input type="submit">
+  <input type="submit" value='login/signup'>
 </form>
 {% endif %}
 
@@ -13,15 +32,39 @@
   <h3>🔐 Your # of Logins 👉 {{ user['logins'] or 0 }}</h3>
   <h3>🐶 Dogs YOU Generated 👉 {{ user['dogs_generated'] }}</h3>
 
-<form action="/get_dog">
-  <button>Get Random Dog</button>
-</form>
+<div style='display: flex;'>
+  <form action="/get_dog">
+    <button>Get Random Dog</button>
+  </form>
+  
+  <form action='/logout'>
+    <button>logout</button>
+  </form>
+</div>
 
   {% if dog_image %}
     <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
   {% endif %}
 
-<form action='/logout'>
-  <button>logout</button>
-</form>
+<table style="margin-left: 20px;">
+  <!-- Table headers -->
+    <th>
+        <tr style="color: green; ">  
+          <td>Place</td>
+          <td>Name</td>
+          <td>Dogs Generated 🌟</td>
+          <td>Logins</td>
+        </tr>  
+    </th>
+
+    {% for index, user in leaderboard %}
+      <tr>
+        <td>{{ index + 1 }}</td>
+        <td>{{ user['user_name'] }}</td>
+        <td>{{ user['dogs_generated'] }}</td>
+        <td>{{ user['logins'] }}</td>
+      </tr>
+    {% endfor %}
+
+</table>
 {% endif %}
