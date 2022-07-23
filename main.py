@@ -1,5 +1,3 @@
-# TODO: leaderboard
-
 from flask import Flask, render_template, request, session
 from replit import db
 import requests
@@ -30,10 +28,8 @@ def hello_world():
     user = create_or_update_user(user_name)
     # user = get_user_from_database(user_name)
     session['user'] = user_name
-    session['logins'] = user['logins']
   else:
     user = None
-    
   
   return render_template('index.html', 
                          dogs_generated=db['dog_images_generated'],
@@ -48,8 +44,10 @@ def get_dog():
     user['dogs_generated'] = user.get('dogs_generated', 0) + 1
   
   db['dog_images_generated'] = db.get('dog_images_generated', 0) + 1
+  
   response = requests.get("https://dog.ceo/api/breeds/image/random")
   data = response.json()
+  
   db['last_dog'] = data['message']
   dogs_generated=db['dog_images_generated']
   dog_image=data['message']
@@ -71,15 +69,15 @@ def logout():
                          leaderboard=enumerate(db['leaderboard']),
                         )
 
-
 '''
-Create new user if they don't exist
+Create new user or update their logins by 1 if they don't exist
+Takes in 2 arguments, the actual user object and their username
 >>> create_or_update_user(None, 'david')
 ObservedDict(value={'user_name': 'david', 'logins': 1, 'dogs_generated': 0})
 
 Update existing user
->>> create_or_update_user(ObservedDict(value={'user_name': 'kevin', 'logins': 3, 'dogs_generated': 0}), 'david')
-ObservedDict(value={'user_name': 'david', 'logins': 3, 'dogs_generated': 0})
+>>> create_or_update_user(ObservedDict(value={'user_name': 'kevin', 'logins': 3, 'dogs_generated': 0}), 'kevin')
+ObservedDict(value={'user_name': 'kevin', 'logins': 3, 'dogs_generated': 0})
 '''
 def create_or_update_user(user_name):
   user = get_user_from_database(user_name)  

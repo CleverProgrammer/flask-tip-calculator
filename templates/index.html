@@ -1,70 +1,86 @@
 <!-- Adding some style to table (OPTIONAL) -->
-<style type="text/css">
-      
-    th:tr{
-        color: blue;
-  
-    }
-    tr:nth-of-type(2n){
-        border: 1px solid black;
-        background-color: rgba(150, 150, 150, 0.5);
-  
-    }
-  
-    td{
-        padding: 8px 8px;
-        border: 1px solid black;
-    }
-</style>
-
-<h3>Click Here to Get a Random Dog 👇</h3>
-<h3>Doggies Generated 🐶 {{ dogs_generated }}</h3>
+<link rel="stylesheet" href="./static/styles.css"/>
 
 {% if not session['user'] %}
-<form action='/' method='POST'>
-  <input type="text" name="user_name" placeholder='username'>
-  <input type="submit" value='login/signup'>
-</form>
+
+  <div class='login-title'>Enter your name 👇</div>
+  <form action='/' method='POST'>
+    <div class='login-form'>
+      <input  type="text" name="user_name" placeholder='Username'>
+      <button type="submit">Login / Sign up</button>
+    </div>
+  </form>
 {% endif %}
 
 {% if session['user'] %}
-  <h3>👱 Logged In User 👉 {{ session['user'] }}</h3>
-  <h3>🔐 Your # of Logins 👉 {{ user['logins'] or 0 }}</h3>
-  <h3>🐶 Dogs YOU Generated 👉 {{ user['dogs_generated'] }}</h3>
 
-<div style='display: flex;'>
-  <form action="/get_dog">
-    <button>Get Random Dog</button>
-  </form>
+  <div class='wrapper'>
   
-  <form action='/logout'>
-    <button>logout</button>
-  </form>
-</div>
+    <div class='header'>
+      <div>
+      <div class='card'>
+        <div>🐶</div>
+        <div>{{ dogs_generated }}</div>
+        <span>Total Dogs</span>
+      </div>
+      <div class='card'>
+        <div>💁</div>
+        <div>{{ session['user'] }}</div>
+      </div>
+      <div class='card'>
+        <div>🔑</div>
+        <div>{{ user['logins'] or 0 }}</div>
+        <span># of Logins</span>
+      </div>
+      <div class='card'>
+        <div>🐕</div>
+        <div>{{ user['dogs_generated'] }}</div>
+        <span>Dogs You Generated</span>
+      </div>
+      </div>
+      {% if dog_image %}
+        <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
+      {% endif %}
+    </div>
+    
+    <div class='buttonsContainer'>
+      <form action="/get_dog">
+        <button>Get Random Dog</button>
+      </form>
 
-  {% if dog_image %}
-    <div id='dog'><img src='{{dog_image}}' width='200' height='200' style="border-radius: 10%;"></div>
-  {% endif %}
+    <form action='/logout'>
+      <button>Logout</button>
+    </form>
+  </div>
 
-<table style="margin-left: 20px;">
-  <!-- Table headers -->
-    <th>
-        <tr style="color: green; ">  
-          <td>Place</td>
-          <td>Name</td>
-          <td>Dogs Generated 🌟</td>
-          <td>Logins</td>
-        </tr>  
-    </th>
-
-    {% for index, user in leaderboard %}
-      <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ user['user_name'] }}</td>
-        <td>{{ user['dogs_generated'] }}</td>
-        <td>{{ user['logins'] }}</td>
-      </tr>
-    {% endfor %}
-
-</table>
+  
+    <table class = "leaderboard">
+      <!-- Table headers -->
+        <th>
+          <div class='titles'>
+            <tr>  
+              <td>Place</td>
+              <td>Name</td>
+              <td>Dogs Generated 🌟</td>
+              <td>Logins</td>
+            </tr>  
+            </div>
+        </th>
+    
+        {% for index, user in leaderboard %}
+          <tr>
+            {% if index + 1 == 1 %}
+              <td>1 {{ '🏆' }}</td>
+            {% else %}
+              <td>{{ index + 1 }}</td>
+            {% endif %}
+            <td>{{ user['user_name'] }}</td>
+            <td>{{ user['dogs_generated'] }}</td>
+            <td>{{ user['logins'] }}</td>
+          </tr>
+        {% endfor %}
+    
+    </table>
+  </div>
 {% endif %}
+
